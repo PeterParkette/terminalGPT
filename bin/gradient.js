@@ -29,10 +29,12 @@ const referenceGradient = [
 ];
 
 // async-friendly setTimeout
+/*
 const sleep = (time) =>
   new Promise((resolve) => {
     setTimeout(resolve, time);
   });
+*/
 
 function getGradientAnimFrames() {
   const frames = [];
@@ -48,6 +50,7 @@ function getGradientAnimFrames() {
   return frames;
 }
 
+/*
 function getIntroAnimFrames() {
   const frames = [];
   for (let end = 1; end <= gradientColors.length; end++) {
@@ -62,6 +65,7 @@ function getIntroAnimFrames() {
   }
   return frames;
 }
+*/
 
 /**
  * Generate loading spinner with rocket flames!

@@ -1,26 +1,26 @@
 const { loadWithRocketGradient } = require("./gradient");
 const { Configuration, OpenAIApi } = require("openai");
 
-let fineTunneModel = "";
+let fineTunnedModel = "";
 
 const setFineTuneModel = (model) => {
-  fineTunneModel = model;
+  fineTunnedModel = model;
 };
 
 const getFineTuneModel = () => {
-  return fineTunneModel;
+  return fineTunnedModel;
 };
 
-const retrieveFineTune = async (apiKey, tunneID) => {
+const retrieveFineTune = async (apiKey, tunnedID) => {
   const { Configuration, OpenAIApi } = require("openai");
   const configuration = new Configuration({
     apiKey: apiKey,
   });
-  const openai = new OpenAIApi(configuration);
-  const response = await openai.retrieveFineTune(tunneID);
+  const openAi = new OpenAIApi(configuration);
+  const response = await openAi.retrieveFineTune(tunnedID);
   while (response.data.status !== "succeeded") {
     await new Promise((resolve) => setTimeout(resolve, 5000));
-    const newRetrieve = await openai.retrieveFineTune(tunneID);
+    const newRetrieve = await openAi.retrieveFineTune(tunnedID);
     if (newRetrieve.data.status === "succeeded") {
       return;
     }
@@ -32,9 +32,9 @@ const fineTune = async (apiKey, fileID) => {
     apiKey,
   });
 
-  const openai = new OpenAIApi(configuration);
+  const openAi = new OpenAIApi(configuration);
   const spinner = loadWithRocketGradient("Fine tuning...").start();
-  const response = await openai
+  const response = await openAi
     .createFineTune({
       training_file: fileID,
       model: "text-davinci-003",
