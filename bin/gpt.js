@@ -6,7 +6,7 @@ const { appendToFile, uploadFile } = require("./file");
 const { fineTune, getFineTuneModel, setFineTuneModel } = require("./fineTune");
 const { error } = require("./errors");
 
-let converstationLimit = 0;
+let conversationLimit = 0;
 
 const checkModel = (options) => {
   return getFineTuneModel() || options.engine || "text-davinci-002";
@@ -53,9 +53,9 @@ const generateCompletion = async (apiKey, model, prompt, options) => {
     }
 
     if (options.finetunning) {
-      converstationLimit = converstationLimit + 1;
+      conversationLimit = conversationLimit + 1;
       appendToFile(file, prompt, request.data.choices[0].text);
-      if (converstationLimit === parseInt(options.limit)) {
+      if (conversationLimit === parseInt(options.limit)) {
         const uploadedFile = await uploadFile(apiKey, file);
         const fineTuning = await fineTune(apiKey, uploadedFile.id);
         setFineTuneModel(fineTuning.fine_tuned_model);
