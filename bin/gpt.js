@@ -4,6 +4,7 @@ const { loadWithRocketGradient } = require("./gradient");
 const { getContext, addContext } = require("./context");
 const { appendToFile, uploadFile } = require("./file");
 const { fineTune, getFineTuneModel, setFineTuneModel } = require("./fineTune");
+const { error } = require("./errors");
 
 let converstationLimit = 0;
 
@@ -41,43 +42,7 @@ const generateCompletion = async (apiKey, model, prompt, options) => {
       })
       .catch((err) => {
         checkModel(options);
-        if (err["response"]["status"] == "404") {
-          console.error(
-            `${chalk.red(
-              "\nNot Found: Model not found. Please check the model name."
-            )}`
-          );
-        }
-        if (err["response"]["status"] == "429") {
-          console.error(
-            `${chalk.red(
-              "\nAPI Rate Limit Exceeded: ChatGPT is getting too many requests from the user in a short period of time. Please wait a while before sending another message."
-            )}`
-          );
-        }
-        if (err["response"]["status"] == "400") {
-          console.error(
-            `${chalk.red(
-              "\nBad Request: Prompt provided is empty or too long. Prompt should be between 1 and 4096 tokens."
-            )}`
-          );
-        }
-        if (err["response"]["status"] == "402") {
-          console.error(
-            `${chalk.red(
-              "\nPayment Required: ChatGPT quota exceeded. Please check you chatGPT account."
-            )}`
-          );
-        }
-        if (err["response"]["status"] == "503") {
-          console.error(
-            `${chalk.red(
-              "\nService Unavailable: ChatGPT is currently unavailable, possibly due to maintenance or high traffic. Please try again later."
-            )}`
-          );
-        } else {
-          console.error(`${chalk.red("Something went wrong!!!")} ${err}`);
-        }
+        error(err);
 
         spinner.stop();
         return "error";
