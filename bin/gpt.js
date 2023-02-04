@@ -16,6 +16,7 @@ const generateCompletion = async (apiKey, model, prompt, options) => {
   try {
     let innerContext = getContext();
     const tgptModel = `${model}-terminal-gpt`;
+    // eslint-disable-next-line no-undef
     const file = `${__dirname}/../data/${tgptModel}.jsonl`;
     const configuration = new Configuration({
       apiKey,
