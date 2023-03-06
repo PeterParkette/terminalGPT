@@ -1,4 +1,3 @@
-mod utils;
 
 use wasm_bindgen::prelude::*;
 
@@ -9,11 +8,12 @@ use wasm_bindgen::prelude::*;
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
-extern {
-    fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet() {
-    alert("Hello, terminal-wasm!");
+pub fun main() {
+    let mut terminal = Terminal::new();
+    terminal.print_red("Hello, world!");
+    terminal.print_blue("Hello, world!");
+    terminal.print_bold_blue("Hello, world!");
+    terminal.print_italic("Hello, world!");
+    terminal.write("Hello, world!");
+   
 }

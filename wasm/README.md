@@ -17,17 +17,53 @@ wasm-pack (<https://rustwasm.github.io/wasm-pack/installer/>)
 
 `wasm-pack new terminal-wasm`
 
-1. Add package to run terminal on browser:
+1. Add `termion` package to run terminal on browser:
 
 ```rust
 [dependencies]
 wasm-bindgen = "0.2.74"
+termion = "*"
+web-sys = "0.3"
+libc = "0.2.80"
 ```
 
 1. Write Rust code to create a new instance of the terminal emulator and render it to a canvas element:
 
 ```rust
+use std::io{self, Write};
+use termion::{color, style};
 
+pub strct Terminal {
+    stdout: io::Stdout,
+}
+
+impl Terminal {
+    pub fn new() -> Self {
+        Self {
+            stdout: io::stdout(),
+        }
+    }
+
+    pub fn print_red(&mut self, text: &str) {
+        write!(self.stdout, "{}{}{}", color::Fg(color::Red), text, color::Fg(color::Reset));
+    }
+
+    pub fn print_blue(&mut self, text: &str) {
+        write!(self.stdout, "{}{}{}", color::Fg(color::Blue), text, color::Fg(color::Reset));
+    }
+
+    pub fn print_bold_blue(&mut self, text: &str) {
+        write!(self.stdout, "{}{}{}{}{}", style::Bold, color::Fg(color::Blue), text, style::Reset, color::Fg(color::Reset));
+    }
+
+    pub fn print_italic(&mut self, text: &str) {
+        write!(self.stdout, "{}{}{}", style::Italic, text, style::Reset);
+    }
+
+    pub fn write (&mut self, text: &str) -> io::Result<()> {
+        write!(self.stdout, "{}", text);
+    }
+}
 
 ```
 
