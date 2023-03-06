@@ -15,27 +15,19 @@ wasm-pack (<https://rustwasm.github.io/wasm-pack/installer/>)
 
 2. Create a new Rust project using the cargo command-line tool:
 
-`cargo new my-terminal --bin`
+`wasm-pack new terminal-wasm`
 
-3. Add the wezterm library as a dependency in the Cargo.toml file:
+1. Add package to run terminal on browser:
 
 ```rust
 [dependencies]
-wezterm = "2021.11.1"
+wasm-bindgen = "0.2.74"
 ```
 
-4. Write Rust code to create a new instance of the wezterm terminal emulator and render it to a canvas element:
+1. Write Rust code to create a new instance of the terminal emulator and render it to a canvas element:
 
 ```rust
-use wezterm::{config::Config, start};
 
-fn main() {
-    // Load the terminal configuration from a file or create one programmatically
-    let config = Config::default();
-
-    // Start the terminal emulator
-    start(config, None).unwrap();
-}
 
 ```
 
@@ -48,27 +40,7 @@ wasm-pack build --target web --out-name index --out-dir ./dist
 6. Create an HTML file with a canvas element to render the terminal emulator:
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Terminal Emulator</title>
-  </head>
-  <body>
-    <canvas id="terminal" width="800" height="600"></canvas>
-    <script type="module">
-      import init from "./dist/index.js";
 
-      init().then(() => {
-        // Create a new instance of the wezterm terminal emulator
-        const wezterm = new window.wezterm.Terminal();
-
-        // Render the terminal emulator to the canvas element
-        wezterm.attachToCanvas(document.getElementById("terminal"));
-      });
-    </script>
-  </body>
-</html>
 ```
 
 7. Serve the HTML file and the Wasm module using a web server, or open the HTML file directly in a web browser.
